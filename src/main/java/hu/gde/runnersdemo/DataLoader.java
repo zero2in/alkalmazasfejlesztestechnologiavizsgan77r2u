@@ -6,16 +6,29 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class DataLoader implements CommandLineRunner {
+    private final SponsorRepository sponsorRepository;
 
     private final RunnerRepository runnerRepository;
 
     @Autowired
-    public DataLoader(RunnerRepository runnerRepository) {
+    public DataLoader(RunnerRepository runnerRepository,SponsorRepository sponsorRepository) {
         this.runnerRepository = runnerRepository;
+        this.sponsorRepository = sponsorRepository;
     }
 
     @Override
     public void run(String... args) {
+        SponsorEntity sponsorEntity1 = new SponsorEntity();
+        sponsorEntity1.setSponsorName("Nájki");
+        sponsorRepository.save(sponsorEntity1);
+        SponsorEntity sponsorEntity2 = new SponsorEntity();
+        sponsorEntity2.setSponsorName("RIBUKK");
+        sponsorRepository.save(sponsorEntity2);
+        SponsorEntity sponsorEntity3 = new SponsorEntity();
+        sponsorEntity3.setSponsorName("SaDiDa");
+        sponsorRepository.save(sponsorEntity3);
+
+
         RunnerEntity runnerEntity = new RunnerEntity();
         runnerEntity.setRunnerName("Tomi");
         runnerEntity.setAveragePace(310);
@@ -33,7 +46,7 @@ public class DataLoader implements CommandLineRunner {
 
         runnerEntity.getLaptimes().add(laptime1);
         runnerEntity.getLaptimes().add(laptime2);
-
+        runnerEntity.setSponsorEntity(sponsorEntity1);
         runnerRepository.save(runnerEntity);
 
         RunnerEntity runnerEntity2 = new RunnerEntity();
@@ -54,6 +67,7 @@ public class DataLoader implements CommandLineRunner {
         runnerEntity2.getLaptimes().add(laptime3);
         runnerEntity2.getLaptimes().add(laptime4);
 
+        runnerEntity2.setSponsorEntity(sponsorEntity2);
         runnerRepository.save(runnerEntity2);
 
         RunnerEntity runnerEntity3 = new RunnerEntity();
@@ -74,6 +88,7 @@ public class DataLoader implements CommandLineRunner {
         runnerEntity3.getLaptimes().add(laptime5);
         runnerEntity3.getLaptimes().add(laptime6);
 
+        runnerEntity3.setSponsorEntity(sponsorEntity1);
         runnerRepository.save(runnerEntity3);
     }
 }

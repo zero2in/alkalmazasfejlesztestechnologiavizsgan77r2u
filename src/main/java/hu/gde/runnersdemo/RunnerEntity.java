@@ -12,12 +12,19 @@ public class RunnerEntity {
     private String runnerName;
     private long averagePace;
     private int runnerHeight;
-
+    @ManyToOne
+    private SponsorEntity sponsorEntity;
     @OneToMany(mappedBy = "runner", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LapTimeEntity> laptimes = new ArrayList<>();
 
-    @ManyToOne
-    private SponsorEntity sponsorEntity;
+    public SponsorEntity getSponsorEntity() {
+        return sponsorEntity;
+    }
+
+    public void setSponsorEntity(SponsorEntity sponsorEntity) {
+        this.sponsorEntity = sponsorEntity;
+    }
+
     public RunnerEntity() {
     }
 
