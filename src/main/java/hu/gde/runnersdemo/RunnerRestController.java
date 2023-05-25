@@ -14,18 +14,30 @@ public class RunnerRestController {
     @Autowired
     private LapTimeRepository lapTimeRepository;
     private RunnerRepository runnerRepository;
-
+    private SponsorRepository sponsorRepository;
     @Autowired
-    public RunnerRestController(RunnerRepository runnerRepository, LapTimeRepository lapTimeRepository) {
+    public RunnerRestController(RunnerRepository runnerRepository, LapTimeRepository lapTimeRepository,SponsorRepository sponsorRepository) {
         this.runnerRepository = runnerRepository;
         this.lapTimeRepository = lapTimeRepository;
+        this.sponsorRepository = sponsorRepository;
     }
 
     @GetMapping("/{id}")
     public RunnerEntity getRunner(@PathVariable Long id) {
         return runnerRepository.findById(id).orElse(null);
     }
-
+    @GetMapping("{id}/{sponsorId}/setrunnerssponsor")
+    public void setRunnersSponsor(@PathVariable Long id,@PathVariable Long sponsorId){
+        RunnerEntity runner = runnerRepository.findById(id).orElse(null);
+        List<SponsorEntity> sponsors = sponsorRepository.findAll();
+        if(runner!=null &&  sponsors!=null){
+            for(SponsorEntity s : sponsors){
+                if(s.getSponsorId()==sponsorId){
+                    runner.setSponsorEntity(s);
+                }
+            }
+        }
+    }
     @GetMapping("/{id}/averagelaptime")
     public double getAverageLaptime(@PathVariable Long id) {
         RunnerEntity runner = runnerRepository.findById(id).orElse(null);
@@ -89,5 +101,16 @@ public class RunnerRestController {
         public void setLapTimeSeconds(int lapTimeSeconds) {
             this.lapTimeSeconds = lapTimeSeconds;
         }
+    }
+    public static class SponsorRequest{
+        public int sponsorId;
+        public int getSponsorId() {
+            return sponsorId;
+        }
+
+        public void setSponsorId(int sponsorId) {
+            this.sponsorId = sponsorId;
+        }
+
     }
 }
