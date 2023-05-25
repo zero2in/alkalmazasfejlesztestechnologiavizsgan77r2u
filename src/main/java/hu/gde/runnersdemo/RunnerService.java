@@ -28,4 +28,18 @@ public class RunnerService {
             return -1.0;
         }
     }
+    public double getAverageRunnerHeight(){
+        List<RunnerEntity> runner= runnerRepository.findAll();
+        if (runner != null){
+            int totalRunnerHeight = 0;
+            for(RunnerEntity r : runner) {
+                totalRunnerHeight = totalRunnerHeight+ r.getRunnerHeight();
+            }
+            int counterRunnerAge = runner.size();
+            double averageRunnerAge = (double) totalRunnerHeight / (double) counterRunnerAge;
+            return averageRunnerAge;
+        } else {
+            return -1.00;
+        }
+    }
 }
